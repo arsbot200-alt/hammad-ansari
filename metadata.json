@@ -1,0 +1,6 @@
+{
+  "name": "DumpPix",
+  "description": "Fast zero-compression bulk image dumpster and gallery with lossless downloads and developer upload API",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
