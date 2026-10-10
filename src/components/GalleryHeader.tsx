@@ -7,6 +7,7 @@ import {
   Settings,
   Code2,
   Check,
+  Lock,
 } from 'lucide-react';
 import { SubTab } from '../types';
 
@@ -18,6 +19,7 @@ interface GalleryHeaderProps {
   onOpenTrash: () => void;
   onOpenSettings: () => void;
   onOpenVercelModal: () => void;
+  onLockApp?: () => void;
 }
 
 export const GalleryHeader: React.FC<GalleryHeaderProps> = ({
@@ -28,6 +30,7 @@ export const GalleryHeader: React.FC<GalleryHeaderProps> = ({
   onOpenTrash,
   onOpenSettings,
   onOpenVercelModal,
+  onLockApp,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -91,6 +94,15 @@ export const GalleryHeader: React.FC<GalleryHeaderProps> = ({
               <Code2 className="w-4 h-4 text-amber-400" />
               <span>Vercel & API</span>
             </button>
+            {onLockApp && (
+              <button
+                onClick={onLockApp}
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-rose-400 hover:bg-rose-950/30 text-left border-t border-zinc-800/60 mt-1 pt-2 font-medium"
+              >
+                <Lock className="w-4 h-4 text-rose-400" />
+                <span>Lock Gallery</span>
+              </button>
+            )}
           </div>
         )}
       </div>

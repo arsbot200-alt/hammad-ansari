@@ -10,6 +10,7 @@ import {
   Sparkles,
   ShieldCheck,
   Code2,
+  Lock,
 } from 'lucide-react';
 import { StorageStats } from '../types';
 import { formatBytes } from '../utils/format';
@@ -22,6 +23,7 @@ interface SettingsViewProps {
   onOpenVercelModal: () => void;
   sortOption: string;
   onChangeSortOption: (val: any) => void;
+  onLockApp?: () => void;
 }
 
 interface CronStatus {
@@ -51,6 +53,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   onOpenVercelModal,
   sortOption,
   onChangeSortOption,
+  onLockApp,
 }) => {
   const [showHidden, setShowHidden] = useState(false);
   const [cronStatus, setCronStatus] = useState<CronStatus | null>(null);
@@ -259,6 +262,38 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           <p className="text-[11px] text-zinc-500 leading-normal">
             Zero-compression original storage. Files are kept byte-for-byte lossless.
           </p>
+        </div>
+      </div>
+
+      {/* Security & App Lock Section */}
+      <div className="space-y-3">
+        <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider px-1">
+          Security & Privacy
+        </span>
+
+        <div className="bg-[#131722] border border-zinc-800 rounded-2xl divide-y divide-zinc-800/60 overflow-hidden text-xs">
+          <div className="flex items-center justify-between p-3.5">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span className="font-medium text-white">App Lock Protection</span>
+            </div>
+            <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-mono font-medium">
+              Enabled
+            </span>
+          </div>
+
+          {onLockApp && (
+            <div
+              onClick={onLockApp}
+              className="flex items-center justify-between p-3.5 hover:bg-zinc-800/40 cursor-pointer transition-colors group"
+            >
+              <div className="flex items-center gap-2">
+                <Lock className="w-4 h-4 text-rose-400" />
+                <span className="font-medium text-rose-400 group-hover:underline">Lock Gallery Now</span>
+              </div>
+              <ChevronRight className="w-4 h-4 text-zinc-600" />
+            </div>
+          )}
         </div>
       </div>
 

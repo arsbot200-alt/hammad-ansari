@@ -17,9 +17,18 @@ import { SettingsView } from './components/SettingsView';
 import { BottomNavBar } from './components/BottomNavBar';
 import { DropZone } from './components/DropZone';
 import { VercelDeployModal } from './components/VercelDeployModal';
+import { LockScreen, AUTH_STORAGE_KEY } from './components/LockScreen';
 import { Upload } from 'lucide-react';
 
 export default function App() {
+  const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(AUTH_STORAGE_KEY) === 'true';
+    } catch {
+      return false;
+    }
+  });
+
   const [images, setImages] = useState<ImageRecord[]>([]);
   const [trashedImages, setTrashedImages] = useState<ImageRecord[]>([]);
   const [stats, setStats] = useState<StorageStats | null>(null);
@@ -251,6 +260,17 @@ export default function App() {
       ? images.filter((i) => i.isFavorite)
       : images;
 
+  const handleLockApp = () => {
+    try {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+    } catch {}
+    setIsUnlocked(false);
+  };
+
+  if (!isUnlocked) {
+    return <LockScreen onUnlock={() => setIsUnlocked(true)} />;
+  }
+
   return (
     <div
       className={`min-h-screen flex flex-col font-sans transition-colors duration-150 ${
@@ -305,6 +325,7 @@ export default function App() {
           onOpenVercelModal={() => setIsVercelModalOpen(true)}
           sortOption={sortOption}
           onChangeSortOption={setSortOption}
+          onLockApp={handleLockApp}
         />
       ) : (
         <>
@@ -325,6 +346,7 @@ export default function App() {
             onOpenTrash={() => setCurrentTab('trash')}
             onOpenSettings={() => setCurrentTab('settings')}
             onOpenVercelModal={() => setIsVercelModalOpen(true)}
+            onLockApp={handleLockApp}
           />
 
           {/* Active Album Filter banner if selected */}
